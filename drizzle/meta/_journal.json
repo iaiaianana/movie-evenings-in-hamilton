@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1791894715014,
+      "tag": "0000_cool_madelyne_pryor",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1791897637964,
+      "tag": "0001_fearless_lily_hollister",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791900315589,
+      "tag": "0002_many_doorman",
+      "breakpoints": true
+    }
+  ]
+}
