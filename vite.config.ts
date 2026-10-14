@@ -1,6 +1,7 @@
 import vinext from "vinext";
 import { defineConfig } from "vite";
 import hostingConfig from "./.openai/hosting.json";
+import deployment from "./cloudflare.config.json";
 import { readExecutionProfile } from "./scripts/execution-profile.mjs";
 import { sites } from "./build/sites-vite-plugin";
 import { connectorPreview } from "./build/connector-preview-plugin.mjs";
@@ -15,14 +16,20 @@ const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
 const managedLinux = readExecutionProfile() === "managed-linux";
 
 const localBindingConfig = {
+  name: deployment.name,
+  ...(deployment.account_id ? { account_id: deployment.account_id } : {}),
   main: "./build/sites-worker.ts",
+  compatibility_date: "2026-05-15",
+  workers_dev: true,
+  assets: { run_worker_first: ["/", "/admin", "/api/*", "/articles", "/articles/*"] },
   compatibility_flags: ["nodejs_compat"],
   d1_databases: d1
     ? [
         {
           binding: d1,
-          database_name: "site-creator-d1",
-          database_id: SITE_CREATOR_PLACEHOLDER_DATABASE_ID,
+          database_name: "movie-evenings-db",
+          database_id: deployment.database_id || SITE_CREATOR_PLACEHOLDER_DATABASE_ID,
+          migrations_dir: "../../drizzle",
         },
       ]
     : [],

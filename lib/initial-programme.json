@@ -1,0 +1,342 @@
+{
+  "films": [
+    {
+      "id": "eraserhead",
+      "title": "Eraserhead",
+      "year": "1977",
+      "director": "David Lynch",
+      "category": "director",
+      "kind": "film",
+      "note": "",
+      "image": "assets/eraserhead.jpg",
+      "watched": 1,
+      "archived": 0
+    },
+    {
+      "id": "blue-velvet",
+      "title": "Blue Velvet",
+      "year": "1986",
+      "director": "David Lynch",
+      "category": "director",
+      "kind": "film",
+      "note": "",
+      "image": "assets/blue-velvet.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "lost-highway",
+      "title": "Lost Highway",
+      "year": "1997",
+      "director": "David Lynch",
+      "category": "director",
+      "kind": "film",
+      "note": "",
+      "image": "assets/lost-highway.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "the-elephant-man",
+      "title": "The Elephant Man",
+      "year": "1980",
+      "director": "David Lynch",
+      "category": "director",
+      "kind": "film",
+      "note": "",
+      "image": "assets/the-elephant-man.jpg",
+      "watched": 1,
+      "archived": 0
+    },
+    {
+      "id": "ida",
+      "title": "Ida",
+      "year": "2013",
+      "director": "Paweł Pawlikowski",
+      "category": "director",
+      "kind": "film",
+      "note": "",
+      "image": "assets/ida.jpg",
+      "watched": 1,
+      "archived": 0
+    },
+    {
+      "id": "cold-war",
+      "title": "Cold War",
+      "year": "2018",
+      "director": "Paweł Pawlikowski",
+      "category": "director",
+      "kind": "film",
+      "note": "",
+      "image": "assets/cold-war.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "psycho",
+      "title": "Psycho",
+      "year": "1960",
+      "director": "Alfred Hitchcock",
+      "category": "director",
+      "kind": "film",
+      "note": "",
+      "image": "assets/psycho.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "rebecca",
+      "title": "Rebecca",
+      "year": "1940",
+      "director": "Alfred Hitchcock",
+      "category": "director",
+      "kind": "film",
+      "note": "",
+      "image": "assets/rebecca.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "the-birds",
+      "title": "The Birds",
+      "year": "1963",
+      "director": "Alfred Hitchcock",
+      "category": "director",
+      "kind": "film",
+      "note": "",
+      "image": "assets/the-birds.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "vertigo",
+      "title": "Vertigo",
+      "year": "1958",
+      "director": "Alfred Hitchcock",
+      "category": "director",
+      "kind": "film",
+      "note": "",
+      "image": "assets/vertigo.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "wild-strawberries",
+      "title": "Wild Strawberries",
+      "year": "1957",
+      "director": "Ingmar Bergman",
+      "category": "director",
+      "kind": "film",
+      "note": "",
+      "image": "assets/wild-strawberries.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "hour-of-the-wolf",
+      "title": "Hour of the Wolf",
+      "year": "1968",
+      "director": "Ingmar Bergman",
+      "category": "director",
+      "kind": "film",
+      "note": "",
+      "image": "assets/hour-of-the-wolf.jpg",
+      "watched": 1,
+      "archived": 0
+    },
+    {
+      "id": "persona",
+      "title": "Persona",
+      "year": "1966",
+      "director": "Ingmar Bergman",
+      "category": "director",
+      "kind": "film",
+      "note": "",
+      "image": "assets/persona.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "the-seventh-seal",
+      "title": "The Seventh Seal",
+      "year": "1957",
+      "director": "Ingmar Bergman",
+      "category": "director",
+      "kind": "film",
+      "note": "Maybe — reread Revelation beforehand.",
+      "image": "assets/the-seventh-seal.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "fanny-and-alexander",
+      "title": "Fanny and Alexander",
+      "year": "1982",
+      "director": "Ingmar Bergman",
+      "category": "director",
+      "kind": "film",
+      "note": "",
+      "image": "assets/fanny-and-alexander.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "2001-a-space-odyssey",
+      "title": "2001: A Space Odyssey",
+      "year": "1968",
+      "director": "Stanley Kubrick",
+      "category": "director",
+      "kind": "film",
+      "note": "",
+      "image": "assets/2001--a-space-odyssey.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "ikiru",
+      "title": "Ikiru",
+      "year": "1952",
+      "director": "Akira Kurosawa",
+      "category": "director",
+      "kind": "film",
+      "note": "A serious evening. Get a good night’s sleep first.",
+      "image": "assets/ikiru.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "the-color-of-pomegranates",
+      "title": "The Color of Pomegranates",
+      "year": "1969",
+      "director": "Sergei Parajanov",
+      "category": "director",
+      "kind": "film",
+      "note": "Armenian evening, with wine.",
+      "image": "assets/the-color-of-pomegranates.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "death-becomes-her",
+      "title": "Death Becomes Her",
+      "year": "1992",
+      "director": "Robert Zemeckis",
+      "category": "director",
+      "kind": "film",
+      "note": "A breather after Eraserhead.",
+      "image": "assets/death-becomes-her.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "moonage-daydream",
+      "title": "Moonage Daydream",
+      "year": "2022",
+      "director": "Brett Morgen",
+      "category": "director",
+      "kind": "film",
+      "note": "A documentary evening with David Bowie.",
+      "image": "assets/moonage-daydream.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "nouvelle-vague",
+      "title": "Nouvelle Vague",
+      "year": "2025",
+      "director": "Richard Linklater",
+      "category": "director",
+      "kind": "film",
+      "note": "Watch this before our French classics.",
+      "image": "assets/nouvelle-vague.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "breathless",
+      "title": "Breathless",
+      "year": "1960",
+      "director": "Jean-Luc Godard",
+      "category": "director",
+      "kind": "film",
+      "note": "French evening?",
+      "image": "assets/breathless.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "what-we-do-in-the-shadows",
+      "title": "What We Do in the Shadows",
+      "year": "2014",
+      "director": "Taika Waititi & Jemaine Clement",
+      "category": "nz",
+      "kind": "film",
+      "note": "Taika Waititi & Jemaine Clement · Vampire mockumentary.",
+      "image": "assets/shadows-club-photo.jpg",
+      "watched": 1,
+      "archived": 0
+    },
+    {
+      "id": "wellington-paranormal",
+      "title": "Wellington Paranormal",
+      "year": "2018–2022",
+      "director": "Taika Waititi, Jemaine Clement & Paul Yates",
+      "category": "nz",
+      "kind": "series",
+      "note": "Comedy series · Taika Waititi, Jemaine Clement & Paul Yates.",
+      "image": "assets/wellington-paranormal.jpg",
+      "watched": 0,
+      "archived": 0
+    },
+    {
+      "id": "east-of-eden",
+      "title": "East of Eden",
+      "year": "2026",
+      "director": "Zoe Kazan",
+      "category": "nz",
+      "kind": "series",
+      "note": "Limited series · Adapted by Zoe Kazan. Filmed in New Zealand.",
+      "image": "assets/east-of-eden.jpg",
+      "watched": 0,
+      "archived": 0
+    }
+  ],
+  "screenings": [
+    {
+      "id": "original-hour-of-the-wolf",
+      "film_id": "hour-of-the-wolf",
+      "date": "2026-10-13"
+    },
+    {
+      "id": "original-ida",
+      "film_id": "ida",
+      "date": "2026-10-06"
+    },
+    {
+      "id": "original-what-we-do-in-the-shadows",
+      "film_id": "what-we-do-in-the-shadows",
+      "date": "2026-10-02"
+    },
+    {
+      "id": "original-the-elephant-man",
+      "film_id": "the-elephant-man",
+      "date": "2026-09-25"
+    },
+    {
+      "id": "original-eraserhead",
+      "film_id": "eraserhead",
+      "date": "2026-09-18"
+    }
+  ],
+  "legacyReviews": [
+    {
+      "id": "original-review-eraserhead",
+      "film": "Eraserhead",
+      "name": "Club journal",
+      "body": "😬😐😶 Very uncomfortable. Never want to be a father! Best birth control ad. 💓",
+      "created_at": "2026-09-18T12:00:00.000Z",
+      "status": "published",
+      "kind": "review"
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+import {env} from 'cloudflare:workers';
+import {currentAdmin,json} from '../../../../lib/admin-auth';
+export async function GET(request:Request){if(!await currentAdmin(request))return json({error:'Please sign in.'},401);const tables=['films','screenings','contributions','articles','screening_selection'];const backup:Record<string,unknown>={format:'movie-evenings-backup-v1',exported_at:new Date().toISOString()};for(const table of tables)backup[table]=(await env.DB!.prepare('SELECT * FROM '+table).all()).results;return json(backup,200,{'Content-Disposition':'attachment; filename="movie-evenings-backup-'+new Date().toISOString().slice(0,10)+'.json"'});}

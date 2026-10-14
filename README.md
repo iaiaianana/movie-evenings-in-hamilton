@@ -1,84 +1,129 @@
 # Movie Evenings in Hamilton
 
-A small cinema club website with a director-grouped programme, screening diary, shared reviews, movie suggestions, long-form articles, and a shared next-screening selector.
+A micro cinema club: director programme, last/next-screening covers, a screening journal, short reviews, long articles, and suggestions. This version adds a private admin dashboard and the vintage-TV club emblem.
 
-Current live site: https://movie-evenings-in-hamilton.tastymango4.chatgpt.site/
+The existing draft at https://movie-evenings-in-hamilton.tastymango4.chatgpt.site/ is separate and is not changed by cloning or running this project.
 
-## Current implementation
+## Features
 
-- TypeScript, Vinext/Vite and Cloudflare Workers.
-- Cloudflare D1: a hosted SQLite-based database. Local development uses a separate emulated D1 database.
-- HTML/CSS and browser JavaScript for the public interface.
-- Drizzle schema and versioned SQL migrations.
-- Anyone can currently post reviews, articles, and suggestions, and choose an unwatched title as the next screening.
-- Admin authentication and moderation are planned, not implemented in this snapshot.
+- Public visitors can choose any unwatched, unarchived film or series as the next screening. The latest choice wins and is saved for everyone.
+- Visitors can submit reviews of watched titles and long articles. New reviews and articles are **pending** until approved.
+- Suggestions appear publicly immediately; either admin can edit, reject, or delete them, or use one to prefill a new programme entry.
+- `admin_ianina` and `admin_sonya` have identical permissions.
+- Admins can approve/reject/unpublish/edit/delete submissions, add/edit/archive/restore films, and add/edit/delete screenings.
+- Saving a screening marks its film watched; the journal, counters and last-screening cover follow the database. If the selected next film has been watched, it is cleared.
+- Admins can download a data backup. Password hashes and sessions are excluded.
+- Existing database reviews/articles remain published when the moderation migration is applied.
 
-## Run locally
+## WSL setup
 
-Use Node.js 22.13 or newer and the package manager version recorded in package.json. Windows and WSL are both supported by the portable development profile.
+Prerequisites: Git, Node.js 22.13 or newer, and Corepack. Use the pnpm version pinned in package.json.
 
 ```bash
-git clone https://github.com/iaiaianana/movie-evenings-in-hamilton.git
+git clone -b admin-version https://github.com/iaiaianana/movie-evenings-in-hamilton.git
 cd movie-evenings-in-hamilton
 corepack enable
 corepack pnpm install --frozen-lockfile
+corepack pnpm run admin:setup
 corepack pnpm run build
-```
-
-On a fresh clone, apply the following migrations **once**, in order, to create the local database:
-
-```bash
-node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_cool_madelyne_pryor.sql
-node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0001_fearless_lily_hollister.sql
-node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0002_many_doorman.sql
+corepack pnpm run db:local
 corepack pnpm run dev
 ```
 
-Open the localhost address printed by the development command (normally port 5173). Local reviews and articles are separate from the live site. The default next screening is Persona unless the local database contains another selection.
+`admin:setup` prompts for both passwords **without displaying them**. Choose a distinct passphrase of at least 16 characters for each person. Only salted password hashes are saved in `.dev.vars`, which is private and ignored by Git. Do not send passwords in chat or put them in source files.
 
-Do not replay migrations already applied. Append new migrations for future schema changes; never rewrite applied SQL or its metadata.
+Open the localhost URL printed by the dev command (normally http://localhost:5173). Visit `/admin`, sign in, and click **Initialize programme** once. This copies the original film list, five screening dates, and the original journal review into editable database records. It does not overwrite existing submissions. Local data is separate from the live draft.
 
-## Where to change things
+`db:local` applies only unapplied migrations. Run it again after pulling new migration files. Do not edit applied SQL or Drizzle metadata.
 
-| File or directory | Purpose |
+To rotate both passwords, stop the local server, run `corepack pnpm run admin:setup -- --replace`, and restart it. Production must also receive the updated secret. Changing an admin's hash invalidates that admin's existing sessions.
+
+## Design and code
+
+| Location | Purpose |
 | --- | --- |
-| site.html | Editable home-page source: design, film programme and diary |
-| app/site-html.ts | Generated copy of site.html consumed by the home-page route |
-| lib/article-shell.ts | Articles-page layout and styles |
-| app/articles/route.ts | Articles list and writing interface |
-| app/articles/[id]/route.ts | Individual article reading page |
-| app/api/ | Reviews, suggestions, articles, and next-screening endpoints |
-| lib/programme.ts | Server-side allowlist and cover metadata for next-screening choices |
-| db/schema.ts | Database tables |
-| drizzle/ | Database migrations and metadata |
-| public/assets/ | Film stills and club emblem |
+| site.html | Public page layout, styles and browser behaviour |
+| scripts/sync-homepage.mjs | Regenerate app/site-html.ts after editing site.html |
+| app/route.ts | Serve the home page with current database records |
+| lib/article-shell.ts | Shared Articles/Admin page layout and styles |
+| app/admin/route.ts | Admin interface |
+| app/api/admin/ | Protected login, logout, moderation, programme and backup endpoints |
+| app/articles/ | Articles editor and individual reading pages |
+| app/api/ | Public reviews, suggestions, articles, programme and next-screening endpoints |
+| lib/club-data.ts | Programme queries, initialization and validation |
+| lib/initial-programme.json | Original programme imported once into a new database |
+| lib/admin-auth.ts | Password hashing, session verification and cookie handling |
+| db/schema.ts / drizzle/ | Database schema and migrations |
+| public/assets/ | Film stills and the TV emblem |
 
-After editing site.html, regenerate its served copy:
+After changing site.html:
 
 ```bash
 node scripts/sync-homepage.mjs
 ```
 
-The programme is currently code-defined. If adding or marking films watched, also update lib/programme.ts and the watched-film allowlist in app/api/community/route.ts. Moving these records into the database is part of the planned admin work.
+Routine film updates happen in `/admin`, not by editing the programme source. Articles support paragraphs, headings, bold, italics, quotes and preview. Drafts are stored only in the writer's browser.
 
 ## Checks
 
 ```bash
 corepack pnpm run build
-node tests/community.mjs
-node tests/deployment.mjs
+corepack pnpm test
 ```
 
-The tests use isolated local databases and do not post to the live site. Browser visual QA remains a separate step.
+Tests use isolated local databases and test-only credentials. They cover both admins, moderation, film/screening management, session protections and public next-screening selection. They do not post to or change the live draft. Visual browser testing is a separate local check.
 
-## Hosting and data
+## Deploy to your Cloudflare account
 
-This repository preserves the current source; it does not transfer the live database or hosting account. .openai/hosting.json retains the local binding declarations but deliberately omits the existing Site project ID. Independent Cloudflare deployment and admin setup will be configured in a later step.
+This repository includes deployment helpers, but no production credentials or database ID. Signing in happens in your WSL terminal/browser; no API token needs to be sent in chat.
 
-The planned migration is to a Cloudflare account controlled by the club owner, with two password-based admin accounts and moderation. Everyone will retain the ability to choose the next screening.
+1. Authorize Wrangler and create the database:
 
-Never commit credentials, .env files, local databases, production database exports, node_modules, or build output. Back up live submissions separately before moving hosting.
+```bash
+corepack pnpm run cf:login
+corepack pnpm run cf:create-db
+```
+
+2. Edit `cloudflare.config.json`: set your Cloudflare `account_id` and the `database_id` printed by the database-creation command. Keep the desired Worker name. Account/database IDs are identifiers, not passwords.
+
+3. Rebuild and apply the database migrations:
+
+```bash
+corepack pnpm run build
+corepack pnpm run cf:migrate
+```
+
+4. Upload the admin credentials as a Cloudflare **secret** and deploy:
+
+```bash
+corepack pnpm run cf:secrets
+corepack pnpm run cf:deploy
+```
+
+Wrangler may ask to create the Worker when its secret is uploaded for the first time. Confirm the intended name and account. If it requires a first deployment before uploading secrets, run `cf:deploy`, then `cf:secrets`, then `cf:deploy` again; admin login remains unavailable until credentials exist.
+
+5. Open the URL returned by Wrangler, sign into `/admin`, and initialize the programme. The address uses your chosen `workers.dev` subdomain, not `tastymango`.
+
+6. Review the new site before replacing the link you shared with friends.
+
+The free Workers plan has CPU and usage limits. Password verification uses native Web Crypto, but measure real deployed requests before relying on the free tier. Deployment and production CPU usage have not been verified until you complete these steps.
+
+### Existing live data and backups
+
+Cloning this repository does **not** copy the live draft's database. Its data remains on its existing host. Before switching links, export/import its existing submissions and articles separately; do not retire the draft until that transfer has been checked. Applying the migrations to an existing database preserves its published contributions and articles.
+
+Use **Download backup** in the admin regularly, and save backups privately outside Git. Before major changes, you can also export the deployed D1 database:
+
+```bash
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 export DB --remote --config dist/server/wrangler.json --output backups/club.sql
+```
+
+Create the ignored `backups/` directory first. Backups contain contributor names and writing; don't commit or publish them.
+
+## Authentication notes
+
+Sessions use random opaque tokens, stored hashed in D1, with an eight-hour expiry. Cookies are HttpOnly and SameSite=Strict; HTTPS adds Secure. Every admin action checks the session and request origin on the server. Login attempts are limited. Password hashes use unique salts and PBKDF2-SHA256 with 100,000 iterations, compatible with Workers' native Web Crypto iteration cap. Credentials are held in a runtime secret, not in the database or browser bundle. Use long, distinct passphrases.
 
 ## Images
 
-Film stills belong to their respective rights holders; source links are listed on the home page. The custom club emblem is adapted from TheLoyalOrder's Hamilton coat of arms illustration on Wikimedia Commons (CC BY-SA 4.0); its ribbon lettering was replaced using an AI image edit. Attribution and licence links are included on the site. No blanket licence is granted for third-party images.
+Film stills belong to their respective rights holders; source links are listed on the home page. The TV emblem is an AI-edited adaptation of TheLoyalOrder's Hamilton coat-of-arms illustration on Wikimedia Commons (CC BY-SA 4.0), with eyes replacing bull heads and the club name on the screen. Attribution is included. No blanket licence is granted for third-party images.

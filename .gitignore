@@ -60,3 +60,6 @@ next-env.d.ts
 *.sqlite
 *.sqlite3
 *.db
+
+.dev.vars*
+wrangler.production.json
