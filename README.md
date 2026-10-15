@@ -127,3 +127,17 @@ Sessions use random opaque tokens, stored hashed in D1, with an eight-hour expir
 ## Images
 
 Film stills belong to their respective rights holders; source links are listed on the home page. The TV emblem is an AI-edited adaptation of TheLoyalOrder's Hamilton coat-of-arms illustration on Wikimedia Commons (CC BY-SA 4.0), with eyes replacing bull heads and the club name on the screen. Attribution is included. No blanket licence is granted for third-party images.
+
+## Finding covers for new films
+
+In Programme, enter the title/year and choose Film or Series, then click **Find film details & cover**. Choose the matching result by its title and year to fill title, year, director (or series creators), kind and cover, then review and **Save film**. Your programme section and evening note are preserved. Missing information remains available for manual entry. Wide stills are preferred, with posters as fallback. Search never changes the stored image until you choose and save. Existing covers remain unchanged. Manual HTTPS image URLs and saving without a cover still work when search is unavailable.
+
+Cover search needs a free non-commercial TMDB API connection. Create a TMDB account and request a developer API credential in account Settings → API. Use the **API Read Access Token**, not the shorter API key. Do not paste it into chat or commit it to Git.
+
+For local development append `TMDB_READ_TOKEN=your-token` as a separate line in the ignored `.dev.vars` file, then restart the dev server. For production, after building with your Cloudflare configuration, run:
+
+```bash
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js secret put TMDB_READ_TOKEN --config dist/server/wrangler.json
+```
+
+Paste the token into Wrangler's hidden prompt. Deploy the new code with `corepack pnpm run cf:deploy`. Only administrators can search; the token stays on the server. Each search sends only the film title, year and kind to TMDB, not admin passwords or submissions. The public credits include TMDB's approved logo and attribution. Search has been tested with mocked TMDB responses; a real token is needed to verify the connection after deployment.
