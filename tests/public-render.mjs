@@ -9,4 +9,9 @@ assert.equal(node('#filmCount').textContent,'18');assert.equal(node('#watchedCou
 vm.runInContext(`films.push({id:'unsafe',title:'<img src=x onerror=alert(1)>',director:'<script>evil</script>',year:'2000',category:'director',kind:'film',image:'',note:'<b>note</b>',watched:0,archived:0});render();`,context);
 assert(!node('#films').innerHTML.includes('<script>evil</script>'));assert(node('#films').innerHTML.includes('&lt;script&gt;evil&lt;/script&gt;'));assert(node('#films').innerHTML.includes('&lt;b&gt;note&lt;/b&gt;'));
 vm.runInContext(`films.find(f=>f.id==='persona').watched=1;screenings.push({id:'new',film_id:'persona',date:'2026-10-16'});render();renderDiary();`,context);assert.equal(node('#last-title').textContent,'Persona');assert.equal(node('#watchedCount').textContent,'06');assert.equal(node('#filmCount').textContent,'18'); // one extra unwatched test entry offsets Persona
+vm.runInContext(`rememberGroup({target:{dataset:{group:'Ingmar Bergman'},open:false}});render();`,context);
+assert.match(node('#films').innerHTML, /data-group="Ingmar Bergman" ><summary>/);
+assert.match(node('#films').innerHTML, /class="group-count">2 of 5 watched/);
+vm.runInContext(`rememberGroup({target:{dataset:{group:'Ingmar Bergman'},open:true}});render();`,context);
+assert.match(node('#films').innerHTML, /data-group="Ingmar Bergman" open><summary>/);
 console.log('Passed: public counters, next buttons, updated diary/last cover, and escaped programme rendering.');
