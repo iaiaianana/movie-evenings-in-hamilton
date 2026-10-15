@@ -6,7 +6,7 @@ export async function GET(request:Request,context:{params:Promise<{id:string}>})
   const {id}=await context.params;
   if(!/^[0-9a-f-]{36}$/i.test(id))return missing();
   try{
-    const article=await env.DB!.prepare('SELECT id,title,film,author,body,created_at FROM articles WHERE id=?').bind(id).first<{id:string;title:string;film:string;author:string;body:string;created_at:string}>();
+    const article=await env.DB!.prepare('SELECT id,title,film,author,body,created_at FROM articles WHERE id=? AND status=\'published\'').bind(id).first<{id:string;title:string;film:string;author:string;body:string;created_at:string}>();
     if(!article)return missing();
     const words=article.body.trim().split(/\s+/).length,minutes=Math.max(1,Math.ceil(words/220));
     const date=new Date(article.created_at).toLocaleDateString('en-NZ',{day:'numeric',month:'long',year:'numeric'});
