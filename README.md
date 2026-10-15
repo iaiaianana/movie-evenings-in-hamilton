@@ -130,7 +130,7 @@ Film stills belong to their respective rights holders; source links are listed o
 
 ## Finding covers for new films
 
-In Programme, enter the title/year and choose Film or Series, then click **Find cover**. Choose the matching result by its title and year, preview it, then **Save film**. Wide stills are preferred, with posters as fallback. Search never changes the stored image until you choose and save. Existing covers remain unchanged. Manual HTTPS image URLs and saving without a cover still work when search is unavailable.
+In Programme, enter the title/year and choose Film or Series, then click **Find film details & cover**. Choose the matching result by its title and year to fill title, year, director (or series creators), kind and cover, then review and **Save film**. Your programme section and evening note are preserved. Missing information remains available for manual entry. Wide stills are preferred, with posters as fallback. Search never changes the stored image until you choose and save. Existing covers remain unchanged. Manual HTTPS image URLs and saving without a cover still work when search is unavailable.
 
 Cover search needs a free non-commercial TMDB API connection. Create a TMDB account and request a developer API credential in account Settings → API. Use the **API Read Access Token**, not the shorter API key. Do not paste it into chat or commit it to Git.
 

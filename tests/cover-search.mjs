@@ -12,5 +12,11 @@ assert.equal((await post({title:'Persona',kind:'film'})).status,503);assert.equa
 env.TMDB_READ_TOKEN='test-only-token';assert.equal((await post({title:'',kind:'film'})).status,400);assert.equal((await post({title:'Persona',kind:'invalid'})).status,400);
 const r=await post({title:'Persona',year:'1966',kind:'film'});assert.equal(r.status,200);assert.equal(r.body.results.length,2);assert.equal(r.body.results[0].image,'https://image.tmdb.org/t/p/w780/still.jpg');assert.equal(r.body.results[1].format,'Poster');assert(!JSON.stringify(r).includes(env.TMDB_READ_TOKEN));assert(calls[0].url.includes('primary_release_year=1966'));assert.equal(calls[0].options.headers.Authorization,'Bearer test-only-token');
 await post({title:'Persona',year:'2018',kind:'series'});assert(calls[1].url.includes('/search/tv?'));assert(calls[1].url.includes('first_air_date_year=2018'));
+assert.equal((await post({id:-1,kind:'film'})).status,400);
+reply={ok:true,json:async()=>({title:'Persona',release_date:'1966-10-18',backdrop_path:'/still.jpg',credits:{crew:[{job:'Writer',name:'Another person'},{job:'Director',name:'Ingmar Bergman'},{job:'Director',name:'Ingmar Bergman'}]}})};
+const detail=await post({id:1,kind:'film'});assert.equal(detail.body.film.director,'Ingmar Bergman');assert.equal(detail.body.film.year,'1966');assert.equal(detail.body.film.title,'Persona');assert(calls.at(-1).url.includes('/movie/1?language=en-US&append_to_response=credits'));
+reply={ok:true,json:async()=>({name:'Wellington Paranormal',first_air_date:'2018-07-11',created_by:[{name:'Jemaine Clement'},{name:'Taika Waititi'}]})};
+const series=await post({id:2,kind:'series'});assert.equal(series.body.film.director,'Jemaine Clement, Taika Waititi');assert.equal(series.body.film.image,'');assert.equal(series.body.film.kind,'series');
+reply={ok:true,json:async()=>({title:'Unknown',poster_path:'//untrusted/image'})};const missing=await post({id:3,kind:'film'});assert.equal(missing.body.film.director,'');assert.equal(missing.body.film.image,'');
 reply={ok:false,status:401};assert.equal((await post({title:'Persona',kind:'film'})).status,502);
 console.log('Passed: protected cover search, missing token, validation, film/series lookup, still/poster fallback, safe image paths, and upstream failure.');
