@@ -141,3 +141,8 @@ node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js se
 ```
 
 Paste the token into Wrangler's hidden prompt. Deploy the new code with `corepack pnpm run cf:deploy`. Only administrators can search; the token stays on the server. Each search sends only the film title, year and kind to TMDB, not admin passwords or submissions. The public credits include TMDB's approved logo and attribution. Search has been tested with mocked TMDB responses; a real token is needed to verify the connection after deployment.
+
+
+## Animated club emblem
+
+The approved green outline TV image is `public/assets/cinema-emblem-green.webp`. `public/emblem.js` animates small clipped copies of its three eye regions without redrawing the rest of the image. Each eye has its own random 12–18 second delay and a 180 ms blink. Animation pauses in hidden tabs and stays off when reduced motion is requested. With JavaScript unavailable, the full static emblem remains visible. The shared component is used on the homepage, Articles and Admin.

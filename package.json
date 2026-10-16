@@ -14,7 +14,7 @@
     "db:generate": "drizzle-kit generate",
     "admin:setup": "node scripts/setup-admins.mjs",
     "db:local": "node scripts/migrate-local.mjs",
-    "test": "node tests/public-render.mjs && node tests/cover-search.mjs && node tests/deployment.mjs",
+    "test": "node tests/emblem.mjs && node tests/public-render.mjs && node tests/cover-search.mjs && node tests/deployment.mjs",
     "cf:login": "node scripts/cloudflare.mjs login",
     "cf:create-db": "node scripts/cloudflare.mjs create-db",
     "cf:migrate": "node scripts/cloudflare.mjs migrate",
