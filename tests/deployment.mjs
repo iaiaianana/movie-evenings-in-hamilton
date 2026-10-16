@@ -44,7 +44,7 @@ try{
  const film={action:'save-film',title:'New <script>film</script>',year:'2000',director:'New director',kind:'film',category:'director',note:'An evening',image:'assets/persona.jpg'};
  r=await call('/api/admin/action',film,cookie);assert.equal(r.status,200,await r.clone().text());const newId=(await r.json()).id;data=await get('/api/programme');assert(data.films.some(f=>f.id===newId));
  assert.equal((await call('/api/admin/action',{...film,id:newId,image:'javascript:alert(1)'},cookie)).status,400);
- r=await call('/');assert.equal(r.status,200);html=await r.text();assert(html.includes('cinema-tv.webp'));assert(!html.includes('New <script>film</script>'));assert(html.includes('\\u003cscript'));const embedded=html.match(/const initialProgramme=(.*?);\n/s)[1];const decoded=vm.runInNewContext('('+embedded+')');assert(decoded.films.some(f=>f.title===film.title));
+ r=await call('/');assert.equal(r.status,200);html=await r.text();assert(html.includes('cinema-emblem-green.webp'));assert(html.includes('/emblem.js'));assert(!html.includes('New <script>film</script>'));assert(html.includes('\\u003cscript'));const embedded=html.match(/const initialProgramme=(.*?);\n/s)[1];const decoded=vm.runInNewContext('('+embedded+')');assert(decoded.films.some(f=>f.title===film.title));
  assert.equal((await call('/api/next-screening',{film:film.title})).status,200);assert.equal((await get('/api/next-screening')).film.id,newId);
  assert.equal((await call('/api/admin/action',{action:'archive-film',id:newId,archived:true},sonya)).status,200);assert.equal((await call('/api/next-screening',{film:film.title})).status,400);
  assert.equal((await call('/api/next-screening',{film:'Persona'})).status,200);
